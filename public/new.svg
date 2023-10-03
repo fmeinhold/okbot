@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" width="720" height="520" viewBox="0 -4.142855 720 520" sodipodi:docname="NewStar.svg">
+  <metadata>
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <path style="fill:#ffff00;fill-rule:evenodd;stroke:#ff0000;stroke-width:20;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:5;stroke-dasharray:none;fill-opacity:1" d="M 33.41418,207.16791 L 143.20363,274.95096 L 68.737741,341.77933 L 206.21322,316.00267 L 175.66312,396.1967 L 270.17751,352.28092 L 291.18071,478.30011 L 355.145,334.1418 L 444.88594,438.2031 L 470.66259,325.54958 L 598.59116,400.01547 L 563.2676,294.04478 L 674.96643,287.36194 L 582.36142,242.49148 L 679.73988,195.71162 L 553.72069,178.52719 L 598.59116,120.29105 L 471.61728,130.79265 L 481.16419,27.686035 L 367.55598,148.93177 L 288.31664,72.556504 L 252.03838,156.5693 L 105.97068,64.918977 L 170.88966,184.25533 L 33.41418,207.16791 z" id="path2396" sodipodi:nodetypes="ccccccccccccccccccccccccc"/>
+  <path style="fill:#0000ff;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1" d="M 484.96875 176.625 L 465.875 179.46875 L 466.84375 220.53125 L 450.625 185.21875 L 418.15625 193.8125 L 428.65625 213.84375 L 428.65625 231.03125 L 409.5625 194.75 L 373.28125 201.4375 L 418.15625 278.78125 L 436.28125 274.9375 L 439.15625 233.90625 L 457.3125 269.21875 L 477.34375 265.40625 L 484.96875 176.625 z M 369.46875 201.4375 L 315.0625 214.8125 L 337 295 L 382.84375 285.4375 L 382.84375 269.21875 L 360.875 275.90625 L 361.8125 262.53125 L 378.0625 260.625 L 377.09375 244.40625 L 358 249.1875 L 355.15625 237.71875 L 374.25 235.8125 L 369.46875 201.4375 z M 308.375 217.65625 L 292.125 219.59375 L 295.96875 239.625 L 272.09375 224.34375 L 245.34375 228.15625 L 266.34375 309.3125 L 285.4375 307.40625 L 279.71875 276.875 L 323.625 298.8125 L 308.375 217.65625 z" id="path3168"/>
+</svg>
