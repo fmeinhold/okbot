@@ -1,5 +1,5 @@
 <template>
-  <div class="switch-distraction" :class="{ 'is-active': distraction }">
+  <div class="switch-distraction" :class="{ 'is-active': distraction }" >
     <el-switch
       active-text="On"
       inactive-text="Off"
@@ -9,8 +9,25 @@
     <p style="font-size: x-small">
       Distracted? Turn on the new distraction free mode to focus on what's important!
     </p>
+    <el-switch
+      active-text="On"
+      inactive-text="Off"
+      v-model="darkMode"
+      title="Toggles Dark Mode"
+    />
+    <p style="font-size: x-small">
+      Turn on REAL dark mode
+    </p>
+
   </div>
-  <el-main v-if="!distraction" style="margin-top: 6em">
+
+  <el-main
+    v-if="!distraction"
+    class="main"
+    :class='{darkMode}'
+    ref="main"
+    :style="{ 'margin-top': darkMode ? '0' : '6em' }"
+  >
     <el-row justify="center">
       <el-col :lg="12" :md="24">
         <h1>Welcome to your Ok!-Bot</h1>
@@ -147,8 +164,10 @@
   </el-main>
 </template>
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { computed, onMounted, reactive, ref, watch, inject} from 'vue'
 import { watchDebounced } from '@vueuse/core'
+import { useVuelidate } from '@vuelidate/core'
+import { url } from '@vuelidate/validators'
 
 const counter = reactive([0, 0])
 const sliderCount = ref(0)
@@ -158,13 +177,12 @@ const numClicks = ref(0)
 const distraction = ref(false)
 const checkedMessages = reactive<Array<string>>([])
 const checkDone = ref(false)
+const main = ref()
+const darkMode = inject("darkMode")
 
 const state = reactive({
   urlToCheck: ''
 })
-
-import { useVuelidate } from '@vuelidate/core'
-import { url } from '@vuelidate/validators'
 
 const data = reactive(new Array<{ name: string; status: string; percentage: number }>())
 
@@ -200,16 +218,15 @@ const others = [
   'Travel Itinerary'
 ]
 
-
 function doCheck(n: number) {
   if (n === 0) {
     checkedMessages.splice(0)
     checkDone.value = false
   }
   let tocheck = v$.value.urlToCheck.$invalid ? others : services
-  let verb = v$.value.urlToCheck.$invalid ? (s: string) => s.endsWith("s") ? "are" : "is" : 'is'
+  let verb = v$.value.urlToCheck.$invalid ? (s: string) => (s.endsWith('s') ? 'are' : 'is') : 'is'
 
-  const timeout = (Math.random() * 3000) + 1000
+  const timeout = Math.random() * 3000 + 1000
   let info = ''
   if (tocheck[n] === 'dns' && n > 1) {
     info = " (again, it's important!)"
@@ -218,7 +235,9 @@ function doCheck(n: number) {
   let last = checkedMessages.push(`Checking ${tocheck[n]}${info} ...`) - 1
 
   setTimeout(() => {
-    checkedMessages[last] = `${tocheck[n]} ${verb instanceof Function ? verb(tocheck[n]) : verb} Possibly Ok!`
+    checkedMessages[last] = `${tocheck[n]} ${
+      verb instanceof Function ? verb(tocheck[n]) : verb
+    } Possibly Ok!`
     setTimeout(() => {
       n++
       if (n < tocheck.length) doCheck(n)
@@ -282,10 +301,54 @@ const rules = {
   urlToCheck: { url }
 }
 const v$ = useVuelidate(rules, state)
-</script>
 
+onMounted(() => {
+  console.log(document)
+  const root = document.documentElement
+  root.addEventListener('mousemove', (evt) => {
+    let x = evt.clientX + window.scrollX
+    let y = evt.clientY + window.scrollY
+
+    root.style.setProperty('--mouse-x', `${x}px`)
+    root.style.setProperty('--mouse-y', `${y}px`)
+    root.style.setProperty('--el-text-color', 'transparent')
+  })
+})
+
+watch(darkMode, () => {
+  if (darkMode.value) {
+    document.getElementById("app")?.classList.add("darkMode")
+  } else {
+    document.getElementById("app")?.classList.remove("darkMode")
+  }
+
+
+})
+</script>
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap');
+
+:root {
+  --color-1: rgb(205 205 155 / 1);
+  --color-2: rgb(0 0 0 / 0);
+  --mouse-x: 50%;
+  --mouse-y: 10em;
+  --size: 15em;
+}
+
+.main {
+  margin: auto;
+  &.darkMode {
+    background: radial-gradient(
+        var(--size) var(--size) at var(--mouse-x) var(--mouse-y),
+        var(--color-1) 0%,
+        var(--color-2) 99%
+    ) !important;
+    background-clip: text;
+    -webkit-background-clip: text;
+    user-select: none;
+  }
+}
 
 html,
 body {
@@ -294,11 +357,15 @@ body {
 
 body {
   font-family: 'Roboto', sans-serif;
-  position: relative;
 }
 
 #app {
-  height: 100%;
+  position: relative;
+  min-height: 100%;
+  &.darkMode {
+    background: #000;
+    line-height: 1;
+  }
 }
 
 .el-main {
@@ -329,6 +396,8 @@ body {
   flex-direction: column;
   justify-content: right;
   width: 10em;
+  height: 10em;
+  z-index: 10;
 
   p {
     margin-right: 2em;
@@ -336,16 +405,6 @@ body {
   &.is-active {
     opacity: 0.2 !important;
   }
-}
-
-.flashlight {
-  position: absolute;
-  top: 100px;
-  left: 100px;
-  width: 100px;
-  height: 100px;
-  backdrop-filter: opacity(0.2);
-  background-color: rgb(255 255 255 / 0.3);
 }
 
 .new {
