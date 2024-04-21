@@ -1,5 +1,5 @@
 <template>
-  <div class="switch-distraction" :class="{ 'is-active': distraction }" >
+  <div class="switch-distraction" :class="{ 'is-active': distraction }">
     <el-switch
       active-text="On"
       inactive-text="Off"
@@ -9,22 +9,23 @@
     <p style="font-size: x-small">
       Distracted? Turn on the new distraction free mode to focus on what's important!
     </p>
-    <el-switch
-      active-text="On"
-      inactive-text="Off"
-      v-model="darkMode"
-      title="Toggles Dark Mode"
-    />
-    <p style="font-size: x-small">
-      Turn on REAL dark mode
-    </p>
-
+    <el-switch active-text="On" inactive-text="Off" v-model="darkMode" title="Toggles Dark Mode" />
+    <p style="font-size: x-small">Turn on REAL dark mode</p>
   </div>
+
+  <el-dialog v-model="dialogVisible" title="ok!bot cares about you" width="80vw" >
+    <h3>Are you ok?</h3>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="dialogVisible = false">No</el-button>
+      </div>
+    </template>
+  </el-dialog>
 
   <el-main
     v-if="!distraction"
     class="main"
-    :class='{darkMode}'
+    :class="{ darkMode }"
     ref="main"
     :style="{ 'margin-top': darkMode ? '0' : '6em' }"
   >
@@ -178,7 +179,9 @@ const distraction = ref(false)
 const checkedMessages = reactive<Array<string>>([])
 const checkDone = ref(false)
 const main = ref()
-const darkMode = inject("darkMode")
+const darkMode = inject("darkMode", ref(false))
+const dialogVisible = ref(false)
+
 
 const state = reactive({
   urlToCheck: ''
@@ -263,6 +266,7 @@ function click(button: number) {
   }
 }
 
+
 watchDebounced(
   confidenceLevel,
   () => {
@@ -303,7 +307,6 @@ const rules = {
 const v$ = useVuelidate(rules, state)
 
 onMounted(() => {
-  console.log(document)
   const root = document.documentElement
   root.addEventListener('mousemove', (evt) => {
     let x = evt.clientX + window.scrollX
@@ -313,6 +316,11 @@ onMounted(() => {
     root.style.setProperty('--mouse-y', `${y}px`)
     root.style.setProperty('--el-text-color', 'transparent')
   })
+
+  setTimeout(() => {
+    dialogVisible.value = true
+  }, 1000 * 10)
+
 })
 
 watch(darkMode, () => {
@@ -340,9 +348,9 @@ watch(darkMode, () => {
   margin: auto;
   &.darkMode {
     background: radial-gradient(
-        var(--size) var(--size) at var(--mouse-x) var(--mouse-y),
-        var(--color-1) 0%,
-        var(--color-2) 99%
+      var(--size) var(--size) at var(--mouse-x) var(--mouse-y),
+      var(--color-1) 0%,
+      var(--color-2) 99%
     ) !important;
     background-clip: text;
     -webkit-background-clip: text;
