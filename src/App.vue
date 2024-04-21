@@ -13,7 +13,7 @@
     <p style="font-size: x-small">Turn on REAL dark mode</p>
   </div>
 
-  <el-dialog v-model="dialogVisible" title="ok!bot cares about you" width="80vw" >
+  <el-dialog v-model="dialogVisible" title="ok!bot cares about you" class="dialog-care" >
     <h3>Are you ok?</h3>
     <template #footer>
       <div class="dialog-footer">
@@ -319,7 +319,7 @@ onMounted(() => {
 
   setTimeout(() => {
     dialogVisible.value = true
-  }, 1000 * 10)
+  }, 1000 * 20)
 
 })
 
@@ -436,4 +436,12 @@ body {
     }
   }
 }
+.dialog-care {
+  width: 500px;
+
+  @media screen and (max-width: 600px) {
+    width: 80%;
+  }
+}
+
 </style>
